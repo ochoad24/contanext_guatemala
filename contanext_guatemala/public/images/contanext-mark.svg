@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-labelledby="title">
+  <title id="title">ContaNext</title>
+  <rect width="24" height="24" rx="7" fill="#c8ef66"/>
+  <rect x="4" y="13" width="4" height="7" rx="2" fill="#17302a"/>
+  <rect x="10" y="7" width="4" height="13" rx="2" fill="#17302a"/>
+  <rect x="16" y="10" width="4" height="10" rx="2" fill="#17302a"/>
+</svg>
