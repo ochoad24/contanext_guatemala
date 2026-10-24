@@ -1,0 +1,26 @@
+{
+ "actions": [],
+ "creation": "2026-10-24 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": ["source_row", "status", "item_code", "warehouse", "uom", "counted_quantity", "note", "error"],
+ "fields": [
+  {"fieldname": "source_row", "fieldtype": "Int", "in_list_view": 1, "label": "Fila origen", "read_only": 1, "reqd": 1},
+  {"fieldname": "status", "fieldtype": "Select", "in_list_view": 1, "label": "Resultado", "options": "Accepted\nRejected", "read_only": 1, "reqd": 1},
+  {"fieldname": "item_code", "fieldtype": "Data", "in_list_view": 1, "label": "Artículo", "read_only": 1},
+  {"fieldname": "warehouse", "fieldtype": "Data", "in_list_view": 1, "label": "Bodega", "read_only": 1},
+  {"fieldname": "uom", "fieldtype": "Data", "label": "Unidad", "read_only": 1},
+  {"fieldname": "counted_quantity", "fieldtype": "Float", "in_list_view": 1, "label": "Cantidad contada", "read_only": 1},
+  {"fieldname": "note", "fieldtype": "Small Text", "label": "Nota", "read_only": 1},
+  {"fieldname": "error", "fieldtype": "Small Text", "label": "Error", "read_only": 1}
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "modified": "2026-10-24 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ContaNext Guatemala",
+ "name": "GT Physical Count Row",
+ "owner": "Administrator",
+ "permissions": []
+}

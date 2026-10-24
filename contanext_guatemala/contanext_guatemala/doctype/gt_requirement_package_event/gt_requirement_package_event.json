@@ -1,0 +1,16 @@
+{
+ "actions": [], "autoname": "hash", "creation": "2026-10-24 00:00:00.000000", "doctype": "DocType", "engine": "InnoDB",
+ "field_order": ["requirement_package", "company", "action", "actor", "event_at", "purpose", "recipient", "detail"],
+ "fields": [
+  {"fieldname":"requirement_package","fieldtype":"Link","in_list_view":1,"label":"Paquete","options":"GT Requirement Package","reqd":1},
+  {"fieldname":"company","fieldtype":"Link","label":"Empresa","options":"Company","reqd":1},
+  {"fieldname":"action","fieldtype":"Select","in_list_view":1,"label":"Acción","options":"GENERATED\nRELEASED\nDOWNLOADED","reqd":1},
+  {"fieldname":"actor","fieldtype":"Link","label":"Actor","options":"User","reqd":1},
+  {"fieldname":"event_at","fieldtype":"Datetime","label":"Fecha","reqd":1},
+  {"fieldname":"purpose","fieldtype":"Small Text","label":"Propósito","reqd":1},
+  {"fieldname":"recipient","fieldtype":"Data","label":"Destinatario","reqd":1},
+  {"fieldname":"detail","fieldtype":"Small Text","label":"Detalle"}
+ ],
+ "index_web_pages_for_search": 0, "modified": "2026-10-24 00:00:00.000000", "modified_by": "Administrator", "module": "ContaNext Guatemala", "name": "GT Requirement Package Event", "owner": "Administrator",
+ "permissions": [{"read":1,"role":"GT Books Auditor"},{"read":1,"role":"GT Books Manager"}], "sort_field":"event_at", "sort_order":"DESC", "states":[], "track_changes":0
+}

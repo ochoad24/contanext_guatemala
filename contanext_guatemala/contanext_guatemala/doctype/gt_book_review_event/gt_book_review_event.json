@@ -1,0 +1,35 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-10-24 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": ["book_run", "company", "action", "actor", "event_at", "comment", "emission_sha256", "artifact_snapshot_json", "previous_event_sha256", "event_sha256"],
+ "fields": [
+  {"fieldname": "book_run", "fieldtype": "Link", "in_list_view": 1, "label": "Emisión", "options": "GT Accounting Book Run", "reqd": 1},
+  {"fieldname": "company", "fieldtype": "Link", "label": "Empresa", "options": "Company", "reqd": 1},
+  {"fieldname": "action", "fieldtype": "Select", "in_list_view": 1, "label": "Acción", "options": "SUBMITTED_FOR_REVIEW\nREVIEWED\nAPPROVED\nREJECTED\nSEALING_REQUESTED\nPDF_CREATED\nAWAITING_PRINT_CONFIRMATION\nPRINT_CONFIRMED\nPRINT_EXCEPTION\nRETRY_AUTHORIZED\nSIGNED_COPY_ATTACHED\nSUPERSEDED", "reqd": 1},
+  {"fieldname": "actor", "fieldtype": "Link", "label": "Actor", "options": "User", "reqd": 1},
+  {"fieldname": "event_at", "fieldtype": "Datetime", "label": "Fecha", "reqd": 1},
+  {"fieldname": "comment", "fieldtype": "Small Text", "label": "Comentario"},
+  {"fieldname": "emission_sha256", "fieldtype": "Data", "label": "SHA-256 de emisión"},
+  {"fieldname": "artifact_snapshot_json", "fieldtype": "Code", "label": "Evidencia de artefactos", "options": "JSON", "read_only": 1},
+  {"fieldname":"previous_event_sha256","fieldtype":"Data","label":"Hash anterior","read_only":1},
+  {"fieldname":"event_sha256","fieldtype":"Data","label":"Hash del evento","read_only":1,"unique":1}
+ ],
+ "index_web_pages_for_search": 0,
+ "modified": "2026-10-24 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ContaNext Guatemala",
+ "name": "GT Book Review Event",
+ "owner": "Administrator",
+ "permissions": [
+  {"read": 1, "role": "GT Books Auditor"},
+  {"read": 1, "role": "GT Books Reviewer"},
+  {"read": 1, "role": "GT Books Manager"}
+ ],
+ "sort_field": "event_at",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

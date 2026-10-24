@@ -1,0 +1,24 @@
+{
+ "actions": [],
+ "creation": "2026-10-24 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": ["authorization_evidence", "authority", "resolution_number"],
+ "fields": [
+  {"fieldname": "authorization_evidence", "fieldtype": "Link", "in_list_view": 1, "label": "Evidencia", "options": "GT Book Authorization Evidence", "reqd": 1},
+  {"fetch_from": "authorization_evidence.authority", "fieldname": "authority", "fieldtype": "Data", "in_list_view": 1, "label": "Autoridad", "read_only": 1},
+  {"fetch_from": "authorization_evidence.resolution_number", "fieldname": "resolution_number", "fieldtype": "Data", "in_list_view": 1, "label": "Resolución", "read_only": 1}
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "modified": "2026-10-24 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ContaNext Guatemala",
+ "name": "GT Book Run Authorization",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -7,8 +7,23 @@ app_license = "MIT"
 
 required_apps = ["erpnext"]
 after_install = "contanext_guatemala.install.after_install"
-after_migrate = "contanext_guatemala.install.configure_branding"
+after_migrate = "contanext_guatemala.install.after_migrate"
 
 app_include_css = "/assets/contanext_guatemala/css/contanext.css"
 app_include_js = "/assets/contanext_guatemala/js/branding.js"
 web_include_js = "/assets/contanext_guatemala/js/branding.js"
+
+doc_events = {
+	"File": {
+		"before_save": "contanext_guatemala.books.file_security.protect_book_file_before_save",
+		"on_trash": "contanext_guatemala.books.file_security.protect_book_file_on_trash",
+	}
+}
+
+has_permission = {
+	"File": "contanext_guatemala.books.file_security.restrict_controlled_book_file",
+}
+
+scheduler_events = {
+	"daily": ["contanext_guatemala.books.monitoring.run_operational_monitoring"],
+}

@@ -1,0 +1,34 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "format:GT-SIGNED-{YYYY}-{#####}",
+ "creation": "2026-10-24 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": ["book_run", "company", "signed_pdf", "sha256", "uploaded_by", "uploaded_at", "note", "legal_notice"],
+ "fields": [
+  {"fieldname":"book_run","fieldtype":"Link","in_list_view":1,"label":"Emisión","options":"GT Accounting Book Run","reqd":1},
+  {"fieldname":"company","fieldtype":"Link","label":"Empresa","options":"Company","read_only":1,"reqd":1},
+  {"fieldname":"signed_pdf","fieldtype":"Attach","label":"Copia firmada privada","reqd":1},
+  {"fieldname":"sha256","fieldtype":"Data","label":"SHA-256","read_only":1,"reqd":1},
+  {"fieldname":"uploaded_by","fieldtype":"Link","label":"Adjuntado por","options":"User","read_only":1,"reqd":1},
+  {"fieldname":"uploaded_at","fieldtype":"Datetime","label":"Adjuntado el","read_only":1,"reqd":1},
+  {"fieldname":"note","fieldtype":"Small Text","label":"Observación"},
+  {"default":"Artefacto separado; no implica equivalencia con firma legal.","fieldname":"legal_notice","fieldtype":"Small Text","label":"Limitación","read_only":1}
+ ],
+ "index_web_pages_for_search": 0,
+ "modified": "2026-10-24 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ContaNext Guatemala",
+ "name": "GT Book Signed Copy",
+ "owner": "Administrator",
+ "permissions": [
+  {"read":1,"role":"GT Books Auditor"},
+  {"read":1,"role":"GT Books Reviewer"},
+  {"create":1,"read":1,"role":"GT Books Manager"}
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

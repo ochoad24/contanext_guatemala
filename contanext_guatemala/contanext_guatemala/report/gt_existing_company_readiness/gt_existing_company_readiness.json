@@ -1,0 +1,23 @@
+{
+ "add_total_row": 0,
+ "creation": "2026-10-24 00:00:00.000000",
+ "disable_prepared_report": 1,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "idx": 0,
+ "is_standard": "Yes",
+ "modified": "2026-10-24 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ContaNext Guatemala",
+ "name": "GT Existing Company Readiness",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Company",
+ "report_name": "GT Existing Company Readiness",
+ "report_type": "Script Report",
+ "roles": [
+  {"role": "GT Books Auditor"},
+  {"role": "GT Books Manager"}
+ ]
+}

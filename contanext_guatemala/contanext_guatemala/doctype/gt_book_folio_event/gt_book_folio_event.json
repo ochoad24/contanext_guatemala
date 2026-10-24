@@ -1,0 +1,36 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-10-24 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": ["allocation", "book_run", "company", "action", "actor", "event_at", "idempotency_key", "failed_pages_json", "reason", "previous_event_sha256", "event_sha256"],
+ "fields": [
+  {"fieldname":"allocation","fieldtype":"Link","label":"Asignación","options":"GT Book Folio Allocation","read_only":1,"reqd":1},
+  {"fieldname":"book_run","fieldtype":"Link","in_list_view":1,"label":"Emisión","options":"GT Accounting Book Run","read_only":1,"reqd":1},
+  {"fieldname":"company","fieldtype":"Link","label":"Empresa","options":"Company","read_only":1,"reqd":1},
+  {"fieldname":"action","fieldtype":"Select","in_list_view":1,"label":"Acción","options":"RESERVED\nPRINT_CONFIRMED\nPRINT_EXCEPTION\nRETRY_AUTHORIZED\nANNULLED\nRELEASED","read_only":1,"reqd":1},
+  {"fieldname":"actor","fieldtype":"Link","label":"Actor","options":"User","read_only":1,"reqd":1},
+  {"fieldname":"event_at","fieldtype":"Datetime","label":"Fecha","read_only":1,"reqd":1},
+  {"fieldname":"idempotency_key","fieldtype":"Data","label":"Clave de idempotencia","read_only":1,"reqd":1,"unique":1},
+  {"fieldname":"failed_pages_json","fieldtype":"Code","label":"Páginas fallidas","options":"JSON","read_only":1},
+  {"fieldname":"reason","fieldtype":"Small Text","label":"Motivo","read_only":1},
+  {"fieldname":"previous_event_sha256","fieldtype":"Data","label":"Hash anterior","read_only":1},
+  {"fieldname":"event_sha256","fieldtype":"Data","label":"Hash del evento","read_only":1,"reqd":1,"unique":1}
+ ],
+ "index_web_pages_for_search": 0,
+ "modified": "2026-10-24 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ContaNext Guatemala",
+ "name": "GT Book Folio Event",
+ "owner": "Administrator",
+ "permissions": [
+  {"read":1,"role":"GT Books Auditor"},
+  {"read":1,"role":"GT Books Reviewer"},
+  {"read":1,"role":"GT Books Manager"}
+ ],
+ "sort_field": "event_at",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

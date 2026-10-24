@@ -1,0 +1,12 @@
+{
+ "actions": [], "creation": "2026-10-24 00:00:00.000000", "doctype": "DocType", "editable_grid": 1, "engine": "InnoDB", "istable": 1,
+ "field_order": ["book_run", "include_pdf", "include_csv", "include_manifest", "include_authorizations"],
+ "fields": [
+  {"fieldname":"book_run","fieldtype":"Link","in_list_view":1,"label":"Emisión sellada","options":"GT Accounting Book Run","reqd":1},
+  {"default":"1","fieldname":"include_pdf","fieldtype":"Check","in_list_view":1,"label":"PDF"},
+  {"default":"1","fieldname":"include_csv","fieldtype":"Check","in_list_view":1,"label":"CSV"},
+  {"default":"1","fieldname":"include_manifest","fieldtype":"Check","label":"Manifiesto"},
+  {"default":"0","fieldname":"include_authorizations","fieldtype":"Check","label":"Autorizaciones"}
+ ],
+ "modified": "2026-10-24 00:00:00.000000", "modified_by": "Administrator", "module": "ContaNext Guatemala", "name": "GT Requirement Package Run", "owner": "Administrator", "permissions": []
+}

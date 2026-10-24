@@ -4,6 +4,12 @@ import frappe
 def after_install() -> None:
 	configure_site()
 	configure_branding()
+	install_book_roles()
+
+
+def after_migrate() -> None:
+	configure_branding()
+	install_book_roles()
 
 
 def configure_branding() -> None:
@@ -35,3 +41,21 @@ def configure_site() -> dict[str, str]:
 		"language": "es",
 		"time_zone": "America/Guatemala",
 	}
+
+
+BOOK_ROLES = ("GT Books User", "GT Books Reviewer", "GT Books Manager", "GT Books Auditor")
+
+
+def install_book_roles() -> None:
+	"""Create operational roles without assigning them to any user."""
+	for role_name in BOOK_ROLES:
+		if frappe.db.exists("Role", role_name):
+			continue
+		frappe.get_doc(
+			{
+				"doctype": "Role",
+				"role_name": role_name,
+				"desk_access": 1,
+				"is_custom": 1,
+			}
+		).insert(ignore_permissions=True)

@@ -1,0 +1,20 @@
+{
+ "actions": [], "autoname": "format:GT-ALERT-{YYYY}-{#####}", "creation":"2026-10-24 00:00:00.000000", "doctype":"DocType", "engine":"InnoDB",
+ "field_order":["company","book_run","category","status","detected_at","message","evidence_json","resolution_section","resolution","resolved_by","resolved_at","fingerprint"],
+ "fields":[
+  {"fieldname":"company","fieldtype":"Link","in_list_view":1,"label":"Empresa","options":"Company","reqd":1},
+  {"fieldname":"book_run","fieldtype":"Link","in_list_view":1,"label":"Emisión","options":"GT Accounting Book Run"},
+  {"fieldname":"category","fieldtype":"Select","in_list_view":1,"label":"Categoría","options":"POST_CUTOFF_GL\nPOST_CUTOFF_STOCK\nPOST_CUTOFF_CATALOG\nPOST_CUTOFF_CLOSING\nAUTHORIZATION_EXPIRING\nFOLIO_RANGE_LOW\nRECONCILIATION_DIFFERENCE","reqd":1},
+  {"default":"Open","fieldname":"status","fieldtype":"Select","in_list_view":1,"label":"Estado","options":"Open\nResolved","read_only":1,"reqd":1},
+  {"fieldname":"detected_at","fieldtype":"Datetime","label":"Detectada el","read_only":1,"reqd":1},
+  {"fieldname":"message","fieldtype":"Small Text","label":"Mensaje","read_only":1},
+  {"fieldname":"evidence_json","fieldtype":"Code","label":"Evidencia","options":"JSON","read_only":1},
+  {"fieldname":"resolution_section","fieldtype":"Section Break","label":"Atención humana"},
+  {"fieldname":"resolution","fieldtype":"Small Text","label":"Resolución","read_only":1},
+  {"fieldname":"resolved_by","fieldtype":"Link","label":"Atendida por","options":"User","read_only":1},
+  {"fieldname":"resolved_at","fieldtype":"Datetime","label":"Atendida el","read_only":1},
+  {"fieldname":"fingerprint","fieldtype":"Data","hidden":1,"label":"Huella","read_only":1,"unique":1}
+ ],
+ "index_web_pages_for_search":0, "modified":"2026-10-24 00:00:00.000000", "modified_by":"Administrator", "module":"ContaNext Guatemala", "name":"GT Book Operational Alert", "owner":"Administrator",
+ "permissions":[{"read":1,"role":"GT Books Auditor"},{"read":1,"role":"GT Books Reviewer"},{"read":1,"role":"GT Books Manager","write":1}], "sort_field":"detected_at", "sort_order":"DESC", "states":[], "track_changes":1
+}

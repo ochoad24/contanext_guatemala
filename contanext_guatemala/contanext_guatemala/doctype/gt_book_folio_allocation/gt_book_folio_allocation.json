@@ -1,0 +1,40 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "format:GT-FOL-{YYYY}-{#####}",
+ "creation": "2026-10-24 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": ["book_run", "company", "book_type", "idempotency_key", "technical_simulation", "print_mode", "page_count", "folio_count", "first_folio", "last_folio", "status", "reserved_by", "reserved_at", "pdf_sha256"],
+ "fields": [
+  {"fieldname":"book_run","fieldtype":"Link","in_list_view":1,"label":"Emisión","options":"GT Accounting Book Run","read_only":1,"reqd":1,"unique":1},
+  {"fieldname":"company","fieldtype":"Link","label":"Empresa","options":"Company","read_only":1,"reqd":1},
+  {"fieldname":"book_type","fieldtype":"Data","label":"Libro","read_only":1,"reqd":1},
+  {"fieldname":"idempotency_key","fieldtype":"Data","label":"Clave de idempotencia","read_only":1,"reqd":1,"unique":1},
+  {"default":"1","fieldname":"technical_simulation","fieldtype":"Check","label":"Simulación técnica","read_only":1},
+  {"default":"SIMPLEX","fieldname":"print_mode","fieldtype":"Select","label":"Modo","options":"SIMPLEX\nDUPLEX","read_only":1,"reqd":1},
+  {"fieldname":"page_count","fieldtype":"Int","label":"Páginas PDF","read_only":1,"reqd":1},
+  {"fieldname":"folio_count","fieldtype":"Int","label":"Folios","read_only":1,"reqd":1},
+  {"fieldname":"first_folio","fieldtype":"Int","label":"Primer folio simulado","read_only":1,"reqd":1},
+  {"fieldname":"last_folio","fieldtype":"Int","label":"Último folio simulado","read_only":1,"reqd":1},
+  {"default":"Reserved","fieldname":"status","fieldtype":"Select","in_list_view":1,"label":"Estado","options":"Reserved\nConsumed\nAnnulled\nReleased","read_only":1,"reqd":1},
+  {"fieldname":"reserved_by","fieldtype":"Link","label":"Reservado por","options":"User","read_only":1,"reqd":1},
+  {"fieldname":"reserved_at","fieldtype":"Datetime","label":"Reservado el","read_only":1,"reqd":1},
+  {"fieldname":"pdf_sha256","fieldtype":"Data","label":"SHA-256 PDF","read_only":1}
+ ],
+ "index_web_pages_for_search": 0,
+ "modified": "2026-10-24 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ContaNext Guatemala",
+ "name": "GT Book Folio Allocation",
+ "owner": "Administrator",
+ "permissions": [
+  {"read":1,"role":"GT Books Auditor"},
+  {"read":1,"role":"GT Books Reviewer"},
+  {"read":1,"role":"GT Books Manager"}
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

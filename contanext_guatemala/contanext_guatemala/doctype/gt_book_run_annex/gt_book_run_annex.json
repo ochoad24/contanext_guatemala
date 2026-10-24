@@ -1,0 +1,27 @@
+{
+ "actions": [],
+ "creation": "2026-10-24 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": ["annex", "display_order", "title_snapshot", "annex_type_snapshot", "version_snapshot", "file_url_snapshot", "sha256_snapshot", "approved_by_snapshot", "approved_at_snapshot"],
+ "fields": [
+  {"fieldname": "annex", "fieldtype": "Link", "in_list_view": 1, "label": "Anexo aprobado", "options": "GT Financial Statement Annex", "reqd": 1},
+  {"fieldname": "display_order", "fieldtype": "Int", "in_list_view": 1, "label": "Orden", "reqd": 1},
+  {"fieldname": "title_snapshot", "fieldtype": "Data", "label": "Título fotografiado", "read_only": 1},
+  {"fieldname": "annex_type_snapshot", "fieldtype": "Data", "label": "Tipo fotografiado", "read_only": 1},
+  {"fieldname": "version_snapshot", "fieldtype": "Data", "label": "Versión fotografiada", "read_only": 1},
+  {"fieldname": "file_url_snapshot", "fieldtype": "Attach", "label": "PDF fotografiado", "read_only": 1},
+  {"fieldname": "sha256_snapshot", "fieldtype": "Data", "label": "SHA-256 fotografiado", "read_only": 1},
+  {"fieldname": "approved_by_snapshot", "fieldtype": "Link", "label": "Aprobador fotografiado", "options": "User", "read_only": 1},
+  {"fieldname": "approved_at_snapshot", "fieldtype": "Datetime", "label": "Aprobado el", "read_only": 1}
+ ],
+ "istable": 1,
+ "modified": "2026-10-24 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ContaNext Guatemala",
+ "name": "GT Book Run Annex",
+ "owner": "Administrator",
+ "permissions": [],
+ "states": []
+}

@@ -1,0 +1,24 @@
+{
+ "actions": [],
+ "creation": "2026-10-24 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": ["scope_type", "warehouse", "item_code", "item_group", "inventory_account", "category"],
+ "fields": [
+  {"fieldname": "scope_type", "fieldtype": "Select", "in_list_view": 1, "label": "Alcance explícito", "options": "WAREHOUSE\nITEM\nITEM_GROUP\nITEM_WAREHOUSE", "reqd": 1},
+  {"depends_on": "eval:['WAREHOUSE','ITEM_WAREHOUSE'].includes(doc.scope_type)", "fieldname": "warehouse", "fieldtype": "Link", "in_list_view": 1, "label": "Bodega", "options": "Warehouse"},
+  {"depends_on": "eval:['ITEM','ITEM_WAREHOUSE'].includes(doc.scope_type)", "fieldname": "item_code", "fieldtype": "Link", "in_list_view": 1, "label": "Artículo", "options": "Item"},
+  {"depends_on": "eval:doc.scope_type == 'ITEM_GROUP'", "fieldname": "item_group", "fieldtype": "Link", "in_list_view": 1, "label": "Grupo de artículos", "options": "Item Group"},
+  {"fieldname": "inventory_account", "fieldtype": "Link", "in_list_view": 1, "label": "Cuenta de inventario", "options": "Account", "reqd": 1},
+  {"fieldname": "category", "fieldtype": "Data", "in_list_view": 1, "label": "Categoría declarada", "reqd": 1}
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "modified": "2026-10-24 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ContaNext Guatemala",
+ "name": "GT Inventory Account Mapping",
+ "owner": "Administrator",
+ "permissions": []
+}
