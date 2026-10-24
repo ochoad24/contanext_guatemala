@@ -1,13 +1,11 @@
 app_name = "contanext_guatemala"
 app_title = "ContaNext Guatemala"
 app_publisher = "ContaNext"
-app_description = "Localización fiscal de Guatemala para ContaNext"
-app_email = "dev@contanext.com"
-app_license = "AGPL-3.0-only"
+app_description = "Localización fiscal y operativa de Guatemala para ContaNext"
+app_email = "engineering@contanext.invalid"
+app_license = "MIT"
 
+required_apps = ["erpnext"]
 after_install = "contanext_guatemala.install.after_install"
 
-fixtures = [
-	{"dt": "Custom Field", "filters": [["module", "=", "ContaNext Guatemala"]]},
-	{"dt": "Property Setter", "filters": [["module", "=", "ContaNext Guatemala"]]},
-]
+app_include_css = "/assets/contanext_guatemala/css/contanext.css"

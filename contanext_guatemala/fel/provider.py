@@ -19,3 +19,20 @@ class FELProvider(ABC):
 	@abstractmethod
 	def query(self, uuid: str) -> CertificationResult:
 		raise NotImplementedError
+
+
+class FELProviderNotConfigured(RuntimeError):
+	pass
+
+
+class UnconfiguredFELProvider(FELProvider):
+	"""Fail closed. This provider never simulates a valid fiscal operation."""
+
+	def certify(self, request: CertificationRequest) -> CertificationResult:
+		raise FELProviderNotConfigured("No hay un certificador FEL autorizado configurado.")
+
+	def cancel(self, uuid: str, reason: str) -> CertificationResult:
+		raise FELProviderNotConfigured("No hay un certificador FEL autorizado configurado.")
+
+	def query(self, uuid: str) -> CertificationResult:
+		raise FELProviderNotConfigured("No hay un certificador FEL autorizado configurado.")

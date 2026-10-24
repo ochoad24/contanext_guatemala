@@ -1,4 +1,5 @@
 # ContaNext Guatemala
 
-Aplicación Frappe para localización guatemalteca y arquitectura de integración FEL.
-No certifica documentos por sí sola: requiere un adaptador para un certificador autorizado.
+Aplicación Frappe de localización guatemalteca. Incluye modelos fiscales base y
+contratos desacoplados para FEL. **No certifica DTE** hasta configurar e
+implementar un adaptador de un certificador autorizado.

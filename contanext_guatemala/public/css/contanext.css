@@ -1,0 +1,8 @@
+:root {
+  --contanext-primary: #14532d;
+  --contanext-accent: #16a34a;
+}
+
+.navbar-brand .app-logo {
+  max-height: 28px;
+}

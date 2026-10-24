@@ -1,0 +1,36 @@
+{
+ "actions": [],
+ "autoname": "format:FEL-OP-{YYYY}-{#####}",
+ "creation": "2026-10-24 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": ["document_type", "source_doctype", "source_name", "operation", "status", "provider", "uuid", "attempts", "last_error", "request_xml", "response_xml", "graphic_representation"],
+ "fields": [
+  {"fieldname": "document_type", "fieldtype": "Select", "label": "Tipo DTE", "options": "FACT\nNCRE\nNDEB\nOTHER", "reqd": 1},
+  {"fieldname": "source_doctype", "fieldtype": "Link", "label": "Tipo de documento origen", "options": "DocType", "reqd": 1},
+  {"fieldname": "source_name", "fieldtype": "Dynamic Link", "label": "Documento origen", "options": "source_doctype", "reqd": 1},
+  {"fieldname": "operation", "fieldtype": "Select", "label": "Operación", "options": "CERTIFY\nCANCEL", "reqd": 1},
+  {"fieldname": "status", "fieldtype": "Select", "in_list_view": 1, "label": "Estado", "options": "PENDING\nPROCESSING\nCERTIFIED\nCANCELLED\nFAILED", "read_only": 1, "reqd": 1},
+  {"fieldname": "provider", "fieldtype": "Data", "label": "Certificador", "read_only": 1},
+  {"fieldname": "uuid", "fieldtype": "Data", "in_list_view": 1, "label": "UUID", "read_only": 1},
+  {"default": "0", "fieldname": "attempts", "fieldtype": "Int", "label": "Intentos", "read_only": 1},
+  {"fieldname": "last_error", "fieldtype": "Small Text", "label": "Último error", "read_only": 1},
+  {"fieldname": "request_xml", "fieldtype": "Long Text", "hidden": 1, "label": "XML enviado", "read_only": 1},
+  {"fieldname": "response_xml", "fieldtype": "Long Text", "hidden": 1, "label": "XML recibido", "read_only": 1},
+  {"fieldname": "graphic_representation", "fieldtype": "Attach", "label": "Representación gráfica", "read_only": 1}
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-24 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ContaNext Guatemala",
+ "name": "FEL Operation",
+ "owner": "Administrator",
+ "permissions": [
+  {"create": 1, "email": 1, "export": 1, "print": 1, "read": 1, "report": 1, "role": "Accounts Manager", "share": 1, "write": 1}
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

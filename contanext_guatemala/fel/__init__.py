@@ -1,1 +1,3 @@
-"""Interfaces FEL. No adapter included here represents valid fiscal certification."""
+from contanext_guatemala.fel.service import FELService
+
+__all__ = ["FELService"]
