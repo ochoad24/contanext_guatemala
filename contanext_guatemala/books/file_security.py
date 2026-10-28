@@ -59,18 +59,23 @@ def protect_book_file_on_trash(doc, method=None) -> None:
 		frappe.throw("Un archivo de una emisión generada no se puede eliminar.")
 
 
-def restrict_controlled_book_file(doc, user=None, permission_type=None):
+def restrict_controlled_book_file(doc, user=None, ptype=None, permission_type=None, debug=False):
 	"""Authorize private files through their company-scoped parent object.
 
 	Requirement packages are stricter: their bytes are only available through the
 	audited download endpoint, never through a direct File URL.
+
+	Frappe treats every falsy hook result, including ``None``, as an explicit
+	denial. Return ``True`` when this controller does not need to restrict the
+	operation so normal File permissions remain authoritative.
 	"""
+	permission_type = ptype or permission_type
 	if permission_type != "read":
-		return None
+		return True
 	if doc.attached_to_doctype == "GT Requirement Package":
 		return False
 	if doc.attached_to_doctype not in CONTROLLED_FILE_PARENTS:
-		return None
+		return True
 	if not doc.attached_to_name:
 		return False
 	import frappe

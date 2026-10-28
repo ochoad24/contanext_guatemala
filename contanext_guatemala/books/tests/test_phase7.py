@@ -22,7 +22,9 @@ class TestTechnicalClosureContracts(unittest.TestCase):
 			self.assertFalse(restrict_controlled_book_file(run_file, "other-company@example.com", "read"))
 
 		unrelated = SimpleNamespace(attached_to_doctype="Sales Invoice", attached_to_name="SINV-1")
-		self.assertIsNone(restrict_controlled_book_file(unrelated, "user@example.com", "read"))
+		self.assertTrue(restrict_controlled_book_file(unrelated, "user@example.com", ptype="read"))
+		self.assertTrue(restrict_controlled_book_file(unrelated, "user@example.com", ptype="create"))
+		self.assertTrue(restrict_controlled_book_file(package_file, "user@example.com", ptype="create"))
 
 	def test_existing_company_assessment_is_deterministic_and_read_only(self):
 		arguments = {
