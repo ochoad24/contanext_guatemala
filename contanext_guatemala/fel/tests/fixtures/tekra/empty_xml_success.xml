@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:t="urn:tekra-fixture"><soap:Body><t:CertificacionDocumentoResponse><ResultadoCertificacion>{"error":0}</ResultadoCertificacion><DocumentoCertificado></DocumentoCertificado><RepresentacionGrafica>JVBERi0xLjcKZml4dHVyZQ==</RepresentacionGrafica></t:CertificacionDocumentoResponse></soap:Body></soap:Envelope>

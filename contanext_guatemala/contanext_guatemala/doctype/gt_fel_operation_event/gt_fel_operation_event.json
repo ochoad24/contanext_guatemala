@@ -1,0 +1,31 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-10-30 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": ["fel_operation", "company", "event_type", "status", "actor", "details"],
+ "fields": [
+  {"fieldname":"fel_operation","fieldtype":"Link","in_list_view":1,"label":"Operación FEL","options":"FEL Operation","reqd":1},
+  {"fieldname":"company","fieldtype":"Link","in_list_view":1,"label":"Empresa","options":"Company","reqd":1},
+  {"fieldname":"event_type","fieldtype":"Data","in_list_view":1,"label":"Tipo de evento","reqd":1},
+  {"fieldname":"status","fieldtype":"Data","label":"Estado","reqd":1},
+  {"fieldname":"actor","fieldtype":"Link","label":"Actor","options":"User","reqd":1},
+  {"fieldname":"details","fieldtype":"JSON","label":"Detalles","read_only":1}
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-30 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ContaNext Guatemala",
+ "name": "GT FEL Operation Event",
+ "owner": "Administrator",
+ "permissions": [
+  {"export":1,"read":1,"report":1,"role":"GT FEL Auditor"},
+  {"read":1,"report":1,"role":"GT FEL Manager"}
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

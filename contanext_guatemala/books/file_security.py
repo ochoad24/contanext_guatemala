@@ -17,6 +17,7 @@ CONTROLLED_FILE_PARENTS = {
 	"GT Physical Count Import",
 	"GT Book Signed Copy",
 	"GT Requirement Package",
+	"FEL Operation",
 }
 
 
@@ -24,7 +25,7 @@ def protect_book_file_before_save(doc, method=None) -> None:
 	import frappe
 
 	if doc.attached_to_doctype in CONTROLLED_FILE_PARENTS and not doc.is_private:
-		frappe.throw("Los archivos de libros contables deben almacenarse como privados.")
+		frappe.throw("Los archivos fiscales controlados deben almacenarse como privados.")
 	if doc.attached_to_doctype == "GT Requirement Package" and doc.attached_to_name:
 		status = frappe.db.get_value("GT Requirement Package", doc.attached_to_name, "status")
 		if status in {"Generated", "Released"} and not doc.is_new():
@@ -47,6 +48,8 @@ def protect_book_file_before_save(doc, method=None) -> None:
 def protect_book_file_on_trash(doc, method=None) -> None:
 	import frappe
 
+	if doc.attached_to_doctype == "FEL Operation":
+		frappe.throw("Los artefactos de una operación FEL no se pueden eliminar.")
 	if doc.attached_to_doctype == "GT Requirement Package" and doc.attached_to_name:
 		status = frappe.db.get_value("GT Requirement Package", doc.attached_to_name, "status")
 		if status in {"Generated", "Released"}:

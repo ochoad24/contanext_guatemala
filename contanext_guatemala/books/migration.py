@@ -6,7 +6,7 @@ from contanext_guatemala.books.snapshots import canonical_json, sha256_hex
 
 
 MIGRATION_ASSESSMENT_SCHEMA = "contanext.gt.accounting-book.migration-assessment"
-MIGRATION_ASSESSMENT_VERSION = 1
+MIGRATION_ASSESSMENT_VERSION = 2
 
 
 @dataclass(frozen=True, slots=True)
@@ -23,7 +23,8 @@ def build_migration_assessment(
 	country: str | None,
 	currency: str | None,
 	account_findings: Iterable[Mapping[str, Any]],
-	tax_profile_count: int,
+	fiscal_missing_fields: Iterable[str],
+	fiscal_configuration_errors: Iterable[str] = (),
 	settings_count: int,
 	draft_transaction_count: int,
 	gl_entry_count: int,
@@ -37,6 +38,8 @@ def build_migration_assessment(
 	migration plan before books can be enabled.
 	"""
 	findings = [dict(finding) for finding in account_findings]
+	fiscal_missing = list(fiscal_missing_fields)
+	fiscal_errors = list(fiscal_configuration_errors)
 	checks: list[MigrationCheck] = []
 	checks.append(
 		MigrationCheck(
@@ -60,12 +63,12 @@ def build_migration_assessment(
 	)
 	checks.append(
 		MigrationCheck(
-			"TAX_PROFILE",
+			"FISCAL_CONFIGURATION",
 			"BLOCKER",
-			"PASS" if tax_profile_count == 1 else "FAIL",
-			"Existe un único perfil fiscal para libros."
-			if tax_profile_count == 1
-			else "Debe existir exactamente un ContaNext Tax Profile por empresa.",
+			"PASS" if not fiscal_missing and not fiscal_errors else "FAIL",
+			"La configuración fiscal de Company está completa para libros."
+			if not fiscal_missing and not fiscal_errors
+			else "La configuración fiscal de Company está incompleta o es inválida.",
 		)
 	)
 	checks.append(
@@ -122,7 +125,8 @@ def build_migration_assessment(
 		"facts": {
 			"country": country,
 			"currency": currency,
-			"tax_profile_count": tax_profile_count,
+			"fiscal_missing_fields": fiscal_missing,
+			"fiscal_configuration_errors": fiscal_errors,
 			"settings_count": settings_count,
 			"draft_transaction_count": draft_transaction_count,
 			"gl_entry_count": gl_entry_count,
@@ -148,10 +152,30 @@ def assess_existing_company(company: str) -> dict[str, Any]:
 	import frappe
 
 	from contanext_guatemala.books.catalog import diagnose_company_catalog
+	from contanext_guatemala.fiscal.company import get_company_fiscal_configuration
 
 	company_doc = frappe.get_doc("Company", company)
 	company_doc.check_permission("read")
 	findings = [asdict(finding) for finding in diagnose_company_catalog(company)]
+	fiscal_missing = []
+	fiscal_errors = []
+	try:
+		configuration = get_company_fiscal_configuration(company)
+		required = {
+			"legal_name": "Razón social",
+			"nit": "NIT",
+			"fiscal_address": "Dirección fiscal",
+			"establishment_code": "Código de establecimiento fiscal",
+			"accounting_framework": "Marco contable",
+			"legal_representative_name": "Representante legal",
+			"accountant_name": "Contador",
+			"accountant_nit": "NIT del contador",
+		}
+		fiscal_missing = [
+			label for fieldname, label in required.items() if not getattr(configuration, fieldname)
+		]
+	except frappe.ValidationError as exc:
+		fiscal_errors = [str(exc)]
 	draft_count = 0
 	for doctype in ("Journal Entry", "Payment Entry", "Sales Invoice", "Purchase Invoice"):
 		if frappe.db.exists("DocType", doctype):
@@ -161,7 +185,8 @@ def assess_existing_company(company: str) -> dict[str, Any]:
 		country=company_doc.country,
 		currency=company_doc.default_currency,
 		account_findings=findings,
-		tax_profile_count=frappe.db.count("ContaNext Tax Profile", {"company": company}),
+		fiscal_missing_fields=fiscal_missing,
+		fiscal_configuration_errors=fiscal_errors,
 		settings_count=frappe.db.count("GT Accounting Book Settings", {"company": company}),
 		draft_transaction_count=draft_count,
 		gl_entry_count=frappe.db.count("GL Entry", {"company": company}),

@@ -100,7 +100,7 @@ class TestFrappeBooksContract(IntegrationTestCase):
 		self.assertEqual(meta.get_field("generation_mode").options, "Technical Draft")
 		self.assertTrue(meta.get_field("draft_notice").read_only)
 		self.assertEqual(meta.get_field("artifacts").options, "GT Book Artifact")
-		frameworks = frappe.get_meta("ContaNext Tax Profile").get_field("accounting_framework").options
+		frameworks = frappe.get_meta("Company").get_field("contanext_gt_accounting_framework").options
 		self.assertIn("NIIF", frameworks)
 		self.assertIn("NIIF para PYMES", frameworks)
 		self.assertIn("Base especial aprobada", frameworks)
@@ -267,30 +267,35 @@ class TestFrappeBooksContract(IntegrationTestCase):
 			}
 		).db_insert()
 
-		profile = frappe.get_doc(
+		nit = f"{frappe.utils.now_datetime().strftime('%H%M%S%f')[-10:]}-K"
+		fiscal_address = frappe.get_doc(
 			{
-				"doctype": "ContaNext Tax Profile",
-				"company": company_name,
-				"nit": f"{frappe.utils.now_datetime().strftime('%H%M%S%f')[-10:]}-K",
-				"legal_name": company_name,
-				"tax_address": "Ciudad de Guatemala",
-				"fiscal_name_for_books": company_name,
-				"fiscal_establishment": "1",
-				"accounting_framework": "NIIF para PYMES",
-				"book_currency": "GTQ",
-				"book_language": "Español",
-				"fiscal_year_start_month": 1,
-				"legal_representative_name": "Representante de prueba",
-				"legal_representative_id": "ID-PRUEBA",
-				"accountant_name": "Contador de prueba",
-				"accountant_nit": "1234567-K",
+				"doctype": "Address",
+				"address_title": company_name,
+				"address_type": "Billing",
+				"address_line1": "1a avenida 1-01 zona 1",
+				"city": "Ciudad de Guatemala",
+				"country": "Guatemala",
+				"is_your_company_address": 1,
+				"links": [{"link_doctype": "Company", "link_name": company_name}],
 			}
-		).insert()
+		).insert(ignore_permissions=True)
+		company.db_set(
+			{
+				"tax_id": nit,
+				"contanext_gt_fiscal_address": fiscal_address.name,
+				"contanext_gt_establishment_code": "1",
+				"contanext_gt_accounting_framework": "NIIF para PYMES",
+				"contanext_gt_legal_representative_name": "Representante de prueba",
+				"contanext_gt_accountant_name": "Contador de prueba",
+				"contanext_gt_accountant_nit": "1234567-K",
+			},
+			update_modified=False,
+		)
 		frappe.get_doc(
 			{
 				"doctype": "GT Accounting Book Settings",
 				"company": company_name,
-				"tax_profile": profile.name,
 				"enabled": 1,
 				"book_currency": "GTQ",
 				"language": "Español",
@@ -363,12 +368,12 @@ class TestFrappeBooksContract(IntegrationTestCase):
 		).insert()
 		self.assertIn('"accounting_framework":"NIIF para PYMES"', book_run.tax_identity_snapshot)
 		self.assertIn('"name":"Contador de prueba"', book_run.accountant_snapshot)
-		self.assertIn('"identification":"ID-PRUEBA"', book_run.representative_snapshot)
+		self.assertEqual(frappe.parse_json(book_run.representative_snapshot), {"name": "Representante de prueba"})
 
 		result = execute_preflight(book_run)
 		self.assertEqual(result["status"], "Passed")
 		self.assertEqual(result["blocking_failures"], 0)
-		self.assertEqual(result["checks"], 12)
+		self.assertEqual(result["checks"], 11)
 		book_run.reload()
 		book_run.supersedes = None
 		with self.assertRaises(frappe.ValidationError):

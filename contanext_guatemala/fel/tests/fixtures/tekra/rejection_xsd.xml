@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:t="urn:tekra-fixture"><soap:Body><t:CertificacionDocumentoResponse>
+<ResultadoCertificacion>{"error":12,"frases":[],"mensajes_marcas":[],"errores_xsd":["Fixture: estructura inválida"]}</ResultadoCertificacion>
+<DocumentoCertificado></DocumentoCertificado><RepresentacionGrafica></RepresentacionGrafica>
+</t:CertificacionDocumentoResponse></soap:Body></soap:Envelope>

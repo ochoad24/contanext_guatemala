@@ -1,0 +1,41 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-10-30 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": ["provider", "environment", "identification_type", "identifier", "normalized_identifier", "lookup_key", "status", "returned_name", "response_code", "response_message", "queried_at", "requested_by", "response_hash", "previous_validation", "is_current"],
+ "fields": [
+  {"default":"TEKRA","fieldname":"provider","fieldtype":"Select","in_list_view":1,"label":"Proveedor","options":"TEKRA","reqd":1},
+  {"fieldname":"environment","fieldtype":"Select","in_list_view":1,"label":"Ambiente","options":"SANDBOX\nPRODUCTION","reqd":1},
+  {"fieldname":"identification_type","fieldtype":"Select","in_list_view":1,"label":"Tipo de identificación","options":"NIT\nCUI","reqd":1},
+  {"fieldname":"identifier","fieldtype":"Data","label":"Identificador recibido","reqd":1},
+  {"fieldname":"normalized_identifier","fieldtype":"Data","in_list_view":1,"label":"Identificador normalizado","read_only":1},
+  {"fieldname":"lookup_key","fieldtype":"Data","hidden":1,"label":"Clave lógica","read_only":1},
+  {"fieldname":"status","fieldtype":"Select","in_list_view":1,"label":"Estado","options":"VALID\nINVALID\nERROR\nPENDING","reqd":1},
+  {"fieldname":"returned_name","fieldtype":"Data","label":"Nombre retornado"},
+  {"fieldname":"response_code","fieldtype":"Data","label":"Código de respuesta"},
+  {"fieldname":"response_message","fieldtype":"Small Text","label":"Mensaje normalizado"},
+  {"fieldname":"queried_at","fieldtype":"Datetime","label":"Consultado en","read_only":1},
+  {"fieldname":"requested_by","fieldtype":"Link","label":"Solicitado por","options":"User","read_only":1},
+  {"fieldname":"response_hash","fieldtype":"Data","label":"Hash de respuesta","read_only":1},
+  {"fieldname":"previous_validation","fieldtype":"Link","label":"Validación anterior","options":"GT Taxpayer Validation","read_only":1},
+  {"default":"1","fieldname":"is_current","fieldtype":"Check","label":"Vigente","read_only":1}
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-30 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ContaNext Guatemala",
+ "name": "GT Taxpayer Validation",
+ "owner": "Administrator",
+ "permissions": [
+  {"create":1,"read":1,"report":1,"role":"GT FEL Operator"},
+  {"create":1,"export":1,"read":1,"report":1,"role":"GT FEL Manager","write":1},
+  {"export":1,"read":1,"report":1,"role":"GT FEL Auditor"}
+ ],
+ "sort_field": "queried_at",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

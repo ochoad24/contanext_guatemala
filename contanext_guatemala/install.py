@@ -1,15 +1,21 @@
 import frappe
 
+from contanext_guatemala.fiscal.setup import install_company_fiscal_custom_fields
+
 
 def after_install() -> None:
 	configure_site()
 	configure_branding()
 	install_book_roles()
+	install_fel_roles()
+	install_company_fiscal_custom_fields()
 
 
 def after_migrate() -> None:
 	configure_branding()
 	install_book_roles()
+	install_fel_roles()
+	install_company_fiscal_custom_fields()
 
 
 def configure_branding() -> None:
@@ -44,11 +50,34 @@ def configure_site() -> dict[str, str]:
 
 
 BOOK_ROLES = ("GT Books User", "GT Books Reviewer", "GT Books Manager", "GT Books Auditor")
+FEL_ROLES = (
+	"GT FEL User",
+	"GT FEL Operator",
+	"GT FEL Manager",
+	"GT FEL Auditor",
+	"GT FEL Billing Manager",
+	"GT FEL Billing Auditor",
+)
 
 
 def install_book_roles() -> None:
 	"""Create operational roles without assigning them to any user."""
 	for role_name in BOOK_ROLES:
+		if frappe.db.exists("Role", role_name):
+			continue
+		frappe.get_doc(
+			{
+				"doctype": "Role",
+				"role_name": role_name,
+				"desk_access": 1,
+				"is_custom": 1,
+			}
+		).insert(ignore_permissions=True)
+
+
+def install_fel_roles() -> None:
+	"""Create FEL roles idempotently without granting them to users."""
+	for role_name in FEL_ROLES:
 		if frappe.db.exists("Role", role_name):
 			continue
 		frappe.get_doc(

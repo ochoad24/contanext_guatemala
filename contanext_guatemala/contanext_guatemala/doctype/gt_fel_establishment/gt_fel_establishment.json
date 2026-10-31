@@ -1,0 +1,35 @@
+{
+ "actions": [],
+ "autoname": "format:GT-FEL-EST-{company}-{establishment_code}",
+ "creation": "2026-10-30 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": ["company", "establishment_code", "trade_name", "address", "issuer_email", "is_active", "is_default", "valid_from", "valid_until"],
+ "fields": [
+  {"fieldname":"company","fieldtype":"Link","in_list_view":1,"label":"Empresa","options":"Company","reqd":1},
+  {"fieldname":"establishment_code","fieldtype":"Data","in_list_view":1,"label":"Código SAT/TEKRA","reqd":1},
+  {"fieldname":"trade_name","fieldtype":"Data","label":"Nombre comercial","reqd":1},
+  {"fieldname":"address","fieldtype":"Link","label":"Dirección","options":"Address","reqd":1},
+  {"fieldname":"issuer_email","fieldtype":"Data","label":"Correo emisor","options":"Email"},
+  {"default":"1","fieldname":"is_active","fieldtype":"Check","in_list_view":1,"label":"Activo"},
+  {"default":"0","fieldname":"is_default","fieldtype":"Check","in_list_view":1,"label":"Predeterminado"},
+  {"fieldname":"valid_from","fieldtype":"Date","label":"Vigente desde"},
+  {"fieldname":"valid_until","fieldtype":"Date","label":"Vigente hasta"}
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-30 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ContaNext Guatemala",
+ "name": "GT FEL Establishment",
+ "owner": "Administrator",
+ "permissions": [
+  {"read":1,"report":1,"role":"GT FEL User"},
+  {"create":1,"delete":1,"export":1,"read":1,"report":1,"role":"GT FEL Manager","write":1},
+  {"export":1,"read":1,"report":1,"role":"GT FEL Auditor"}
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

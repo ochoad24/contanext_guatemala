@@ -6,6 +6,7 @@ from frappe.utils import getdate
 
 from contanext_guatemala.books.constants import UNAUTHORIZED_DRAFT_LABEL
 from contanext_guatemala.books.workflow import TransitionContext, validate_transition
+from contanext_guatemala.fiscal.company import build_company_fiscal_snapshot
 
 
 SEALED_STATUSES = {"Sealed", "Superseded"}
@@ -233,33 +234,12 @@ class GTAccountingBookRun(Document):
 				frappe.throw("El PDF, manifiesto y rango reservado son inmutables: " + ", ".join(sorted(changed)))
 
 	def _take_identity_snapshot(self) -> None:
-		profile_name = frappe.db.get_value("GT Accounting Book Settings", {"company": self.company}, "tax_profile")
-		if not profile_name:
+		if not self.company:
 			return
-		profile = frappe.get_doc("ContaNext Tax Profile", profile_name)
-		self.tax_identity_snapshot = _json(
-			{
-				"tax_profile": profile.name,
-				"nit": profile.nit,
-				"fiscal_name_for_books": profile.fiscal_name_for_books,
-				"tax_address": profile.tax_address,
-				"fiscal_establishment": profile.fiscal_establishment,
-				"accounting_framework": profile.accounting_framework,
-			}
-		)
-		self.accountant_snapshot = _json(
-			{
-				"name": profile.accountant_name,
-				"nit": profile.accountant_nit,
-				"registration": profile.accountant_registration,
-			}
-		)
-		self.representative_snapshot = _json(
-			{
-				"name": profile.legal_representative_name,
-				"identification": profile.get_password("legal_representative_id", raise_exception=False),
-			}
-		)
+		snapshot = build_company_fiscal_snapshot(self.company)
+		self.tax_identity_snapshot = _json(snapshot["identity"])
+		self.accountant_snapshot = _json(snapshot["accountant"])
+		self.representative_snapshot = _json(snapshot["representative"])
 
 
 def _json(value: dict) -> str:

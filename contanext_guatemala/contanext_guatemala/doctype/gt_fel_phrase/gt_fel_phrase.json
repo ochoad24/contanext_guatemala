@@ -1,0 +1,26 @@
+{
+ "actions": [],
+ "creation": "2026-10-30 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": ["phrase_type", "scenario_code", "valid_from", "valid_until", "source"],
+ "fields": [
+  {"fieldname":"phrase_type","fieldtype":"Int","in_list_view":1,"label":"Tipo de frase","reqd":1},
+  {"fieldname":"scenario_code","fieldtype":"Int","in_list_view":1,"label":"Código de escenario","reqd":1},
+  {"fieldname":"valid_from","fieldtype":"Date","label":"Vigente desde"},
+  {"fieldname":"valid_until","fieldtype":"Date","label":"Vigente hasta"},
+  {"fieldname":"source","fieldtype":"Data","label":"Fuente","reqd":1}
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-10-30 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ContaNext Guatemala",
+ "name": "GT FEL Phrase",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

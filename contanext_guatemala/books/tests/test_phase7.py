@@ -31,7 +31,7 @@ class TestTechnicalClosureContracts(unittest.TestCase):
 			"country": "Guatemala",
 			"currency": "GTQ",
 			"account_findings": [],
-			"tax_profile_count": 1,
+			"fiscal_missing_fields": [],
 			"settings_count": 1,
 			"draft_transaction_count": 0,
 			"gl_entry_count": 25,
@@ -46,6 +46,8 @@ class TestTechnicalClosureContracts(unittest.TestCase):
 		self.assertTrue(first["dry_run"])
 		self.assertEqual(first["mutations_performed"], [])
 		self.assertFalse(first["automatic_ledger_migration_allowed"])
+		self.assertEqual(first["version"], 2)
+		self.assertNotIn("tax_profile_count", first["facts"])
 
 	def test_migration_assessment_fails_closed_on_structural_findings(self):
 		assessment = build_migration_assessment(
@@ -53,7 +55,7 @@ class TestTechnicalClosureContracts(unittest.TestCase):
 			country="Guatemala",
 			currency="USD",
 			account_findings=[{"code": "INVALID_ROOT_TYPE", "severity": "BLOCKER"}],
-			tax_profile_count=0,
+			fiscal_missing_fields=["NIT", "Dirección fiscal"],
 			settings_count=0,
 			draft_transaction_count=2,
 			gl_entry_count=0,

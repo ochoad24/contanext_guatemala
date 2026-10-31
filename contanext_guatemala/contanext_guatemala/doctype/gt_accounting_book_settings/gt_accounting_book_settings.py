@@ -2,6 +2,8 @@ import frappe
 from frappe.model.document import Document
 
 from contanext_guatemala.books.constants import UNAUTHORIZED_DRAFT_LABEL
+from contanext_guatemala.fiscal.company import get_company_fiscal_configuration
+from contanext_guatemala.validation import validate_nit_format
 
 
 class GTAccountingBookSettings(Document):
@@ -9,40 +11,48 @@ class GTAccountingBookSettings(Document):
 		self.draft_notice = UNAUTHORIZED_DRAFT_LABEL
 		self.legal_format_version = "PROTOTYPE-1"
 		self._validate_unique_company()
-		self._validate_profile()
 		self._validate_inventory_mappings()
 		if self.book_currency != "GTQ":
 			frappe.throw("La moneda de libros debe ser GTQ.")
 		if self.language != "Español":
 			frappe.throw("El idioma de libros debe ser Español.")
 		if self.enabled:
-			self._validate_profile_complete()
+			self._validate_company_fiscal_configuration()
 
 	def _validate_unique_company(self) -> None:
 		filters = {"company": self.company, "name": ["!=", self.name or ""]}
 		if self.company and frappe.db.exists("GT Accounting Book Settings", filters):
 			frappe.throw("Ya existe una configuración de libros para esta empresa.")
 
-	def _validate_profile(self) -> None:
-		profile_company = frappe.db.get_value(
-			"ContaNext Tax Profile", self.tax_profile, "company"
-		)
-		if self.tax_profile and profile_company != self.company:
-			frappe.throw("El perfil fiscal debe pertenecer a la misma empresa.")
-
-	def _validate_profile_complete(self) -> None:
-		profile = frappe.get_cached_doc("ContaNext Tax Profile", self.tax_profile)
+	def _validate_company_fiscal_configuration(self) -> None:
+		configuration = get_company_fiscal_configuration(self.company)
 		required = {
-			"fiscal_name_for_books": "Nombre fiscal para libros",
-			"fiscal_establishment": "Establecimiento fiscal",
+			"legal_name": "Razón social",
+			"nit": "NIT",
+			"fiscal_address": "Dirección fiscal",
+			"establishment_code": "Código de establecimiento fiscal",
 			"accounting_framework": "Marco contable",
 			"legal_representative_name": "Representante legal",
 			"accountant_name": "Contador",
 			"accountant_nit": "NIT del contador",
 		}
-		missing = [label for fieldname, label in required.items() if not profile.get(fieldname)]
+		missing = [
+			label for fieldname, label in required.items() if not getattr(configuration, fieldname)
+		]
 		if missing:
-			frappe.throw("Complete el perfil fiscal antes de habilitar borradores: " + ", ".join(missing))
+			frappe.throw(
+				"Complete la configuración fiscal de la empresa antes de habilitar borradores: "
+				+ ", ".join(missing)
+			)
+		if configuration.country != "Guatemala":
+			frappe.throw("Los Libros contables GT solo pueden habilitarse para una empresa de Guatemala.")
+		if configuration.currency != "GTQ":
+			frappe.throw("La moneda predeterminada de la empresa debe ser GTQ para habilitar Libros contables GT.")
+		try:
+			validate_nit_format(configuration.nit)
+			validate_nit_format(configuration.accountant_nit)
+		except ValueError:
+			frappe.throw("El NIT de la empresa o del contador tiene un formato inválido.")
 
 	def _validate_inventory_mappings(self) -> None:
 		seen = set()

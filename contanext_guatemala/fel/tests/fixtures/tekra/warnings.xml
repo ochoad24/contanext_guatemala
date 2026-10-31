@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:t="urn:tekra-fixture"><soap:Body><t:CertificacionDocumentoResponse>
+<ResultadoCertificacion>{"error":0,"frases":["Fixture warning"],"mensajes_marcas":[{"mensaje":"Fixture brand warning"}],"errores_xsd":null}</ResultadoCertificacion>
+<DocumentoCertificado><![CDATA[<dte:GTDocumento xmlns:dte="http://www.sat.gob.gt/dte/fel/0.2.1"><dte:SAT><dte:DTE><dte:Certificacion><dte:NITCertificador>000000000</dte:NITCertificador><dte:NumeroAutorizacion Serie="FIXTURE1" Numero="1">11111111-2222-3333-4444-555555555555</dte:NumeroAutorizacion><dte:FechaHoraCertificacion>2026-10-30T14:15:16-06:00</dte:FechaHoraCertificacion></dte:Certificacion></dte:DTE></dte:SAT></dte:GTDocumento>]]></DocumentoCertificado>
+<RepresentacionGrafica>JVBERi0xLjcKYW5vbmltaXplZC1maXh0dXJl</RepresentacionGrafica><NITCertificador>000000000</NITCertificador><NumeroAutorizacion>11111111-2222-3333-4444-555555555555</NumeroAutorizacion><NumeroDocumento>1</NumeroDocumento><SerieDocumento>FIXTURE1</SerieDocumento><FechaHoraCertificacion>2026-10-30T14:15:16-06:00</FechaHoraCertificacion>
+</t:CertificacionDocumentoResponse></soap:Body></soap:Envelope>

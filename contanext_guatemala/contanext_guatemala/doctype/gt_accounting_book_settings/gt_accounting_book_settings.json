@@ -5,10 +5,9 @@
  "creation": "2026-10-24 00:00:00.000000",
  "doctype": "DocType",
  "engine": "InnoDB",
- "field_order": ["company", "tax_profile", "enabled", "draft_notice", "localization_section", "book_currency", "language", "time_zone", "page_size", "orientation_policy", "controls_section", "default_finance_book", "require_period_closed", "require_bank_reconciliation", "require_stock_gl_reconciliation", "inventory_section", "inventory_account_mappings", "retention_policy", "legal_format_version"],
+ "field_order": ["company", "enabled", "draft_notice", "localization_section", "book_currency", "language", "time_zone", "page_size", "orientation_policy", "controls_section", "default_finance_book", "require_period_closed", "require_bank_reconciliation", "require_stock_gl_reconciliation", "inventory_section", "inventory_account_mappings", "retention_policy", "legal_format_version"],
  "fields": [
   {"fieldname": "company", "fieldtype": "Link", "in_list_view": 1, "label": "Empresa", "options": "Company", "reqd": 1, "unique": 1},
-  {"fieldname": "tax_profile", "fieldtype": "Link", "label": "Perfil fiscal", "options": "ContaNext Tax Profile", "reqd": 1},
   {"default": "0", "fieldname": "enabled", "fieldtype": "Check", "in_list_view": 1, "label": "Habilitar borradores técnicos"},
   {"default": "NO AUTORIZADO — SOLO VALIDACIÓN TÉCNICA", "fieldname": "draft_notice", "fieldtype": "Data", "label": "Leyenda obligatoria", "read_only": 1},
   {"fieldname": "localization_section", "fieldtype": "Section Break", "label": "Localización y formato preliminar"},

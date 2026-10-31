@@ -11,6 +11,8 @@ from contanext_guatemala.books.gl import apply_finance_book
 from contanext_guatemala.books.inventory import load_physical_counts, reconcile_inventory, stock_integrity_issues
 from contanext_guatemala.books.reconciliation import reconcile_gl
 from contanext_guatemala.books.types import CheckResult
+from contanext_guatemala.fiscal.company import get_company_fiscal_configuration
+from contanext_guatemala.validation import is_valid_nit_format
 
 
 Check = Callable[[object], list[CheckResult]]
@@ -66,7 +68,7 @@ def check_configuration(book_run) -> list[CheckResult]:
 	settings = frappe.db.get_value(
 		"GT Accounting Book Settings",
 		{"company": book_run.company},
-		["name", "enabled", "tax_profile", "book_currency", "language"],
+		["name", "enabled", "book_currency", "language"],
 		as_dict=True,
 	)
 	passed = bool(settings and settings.enabled)
@@ -85,76 +87,43 @@ def check_configuration(book_run) -> list[CheckResult]:
 
 
 def check_tax_identity(book_run) -> list[CheckResult]:
-	settings = frappe.db.get_value(
-		"GT Accounting Book Settings", {"company": book_run.company}, ["tax_profile"], as_dict=True
-	)
-	if not settings:
-		return [CheckResult("GT_TAX_PROFILE", "TAX", "BLOCKER", "FAIL", "Falta el perfil fiscal.")]
-	profile = frappe.db.get_value(
-		"ContaNext Tax Profile",
-		settings.tax_profile,
-		[
-			"company",
-			"nit",
-			"fiscal_name_for_books",
-			"fiscal_establishment",
-			"accounting_framework",
-			"book_currency",
-			"book_language",
-			"legal_representative_name",
-			"accountant_name",
-			"accountant_nit",
-		],
-		as_dict=True,
-	)
-	required = [
-		"nit",
-		"fiscal_name_for_books",
-		"fiscal_establishment",
-		"accounting_framework",
-		"legal_representative_name",
-		"accountant_name",
-		"accountant_nit",
-	]
-	missing = [field for field in required if not profile or not profile.get(field)]
-	passed = bool(profile and profile.company == book_run.company and not missing)
+	configuration = get_company_fiscal_configuration(book_run.company)
+	required = {
+		"legal_name": "Razón social",
+		"nit": "NIT",
+		"fiscal_address": "Dirección fiscal",
+		"establishment_code": "Código de establecimiento fiscal",
+		"accounting_framework": "Marco contable",
+		"legal_representative_name": "Representante legal",
+		"accountant_name": "Contador",
+		"accountant_nit": "NIT del contador",
+	}
+	missing = [label for fieldname, label in required.items() if not getattr(configuration, fieldname)]
+	invalid = []
+	if configuration.nit and not is_valid_nit_format(configuration.nit):
+		invalid.append("NIT")
+	if configuration.accountant_nit and not is_valid_nit_format(configuration.accountant_nit):
+		invalid.append("NIT del contador")
+	if configuration.country != "Guatemala":
+		invalid.append("País Guatemala")
+	if configuration.currency != "GTQ":
+		invalid.append("Moneda GTQ")
+	passed = not missing and not invalid
 	return [
 		CheckResult(
-			"GT_TAX_PROFILE",
+			"GT_TAX_IDENTITY",
 			"TAX",
 			"BLOCKER",
 			"PASS" if passed else "FAIL",
 			"La identidad fiscal para libros está completa."
 			if passed
-			else "El perfil fiscal no pertenece a la empresa o está incompleto.",
-			{"profile": settings.tax_profile, "missing_fields": missing},
-		)
-	]
-
-
-def check_fel_discrepancy(book_run) -> list[CheckResult]:
-	settings = frappe.db.get_value(
-		"GT Accounting Book Settings", {"company": book_run.company}, "tax_profile"
-	)
-	book_identity = frappe.db.get_value(
-		"ContaNext Tax Profile", settings, ["nit", "legal_name"], as_dict=True
-	)
-	fel_identity = frappe.db.get_singles_dict("ContaNext Fiscal Settings")
-	differences = []
-	if fel_identity.get("nit") and book_identity and fel_identity.nit != book_identity.nit:
-		differences.append("nit")
-	if fel_identity.get("legal_name") and book_identity and fel_identity.legal_name != book_identity.legal_name:
-		differences.append("legal_name")
-	return [
-		CheckResult(
-			"FEL_IDENTITY_DISCREPANCY",
-			"TAX",
-			"INFO",
-			"FAIL" if differences else "PASS",
-			"Existen diferencias informativas con la configuración FEL; no se copiaron valores."
-			if differences
-			else "No se detectaron diferencias informativas con FEL.",
-			{"different_fields": differences},
+			else "La configuración fiscal de la empresa está incompleta o contiene valores inválidos.",
+			{
+				"company": configuration.company,
+				"address": configuration.fiscal_address_name,
+				"missing_fields": missing,
+				"invalid_fields": invalid,
+			},
 		)
 	]
 
@@ -463,7 +432,6 @@ def check_technical_only(book_run) -> list[CheckResult]:
 CHECKS: tuple[Check, ...] = (
 	check_configuration,
 	check_tax_identity,
-	check_fel_discrepancy,
 	check_localization,
 	check_fiscal_period,
 	check_catalog,
